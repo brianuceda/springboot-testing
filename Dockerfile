@@ -17,4 +17,5 @@ COPY --from=build target/springboot-testing-0.0.1-SNAPSHOT.jar /app/springboot-t
 EXPOSE 8080
 
 # Ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app/springboot-testing-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/springboot-testing-0.0.1-SNAPSHOT.jar"]
+# ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app/springboot-testing-0.0.1-SNAPSHOT.jar"]
