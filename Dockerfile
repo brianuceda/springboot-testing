@@ -1,14 +1,20 @@
-# Usar la imagen oficial de OpenJDK 17
+FROM maven:3.9.3-eclipse-temurin-17 AS build
+
+# Copiar el pom.xml y los fuentes
+COPY pom.xml .
+COPY src ./src/
+
+# Construir la aplicación
+RUN mvn clean package -DskipTests
+
+# Ejecutar la aplicación
 FROM openjdk:17-jdk-slim
 
-# Directorio de trabajo dentro del contenedor
-WORKDIR /app
+# Copiar el JAR de la etapa de construcción
+COPY --from=build target/springboot-testing-0.0.1-SNAPSHOT.jar /app/springboot-testing-0.0.1-SNAPSHOT.jar
 
-# Copiar el archivo JAR al contenedor
-COPY target/springboot-testing-0.0.1-SNAPSHOT.jar app.jar
-
-# Puerto
+# Exponer el puerto
 EXPOSE 8080
 
-# Ejecutar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Ejecutar la aplicación
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "/app/springboot-testing-0.0.1-SNAPSHOT.jar"]
