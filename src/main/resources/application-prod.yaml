@@ -3,5 +3,5 @@ spring:
         name: springboot-testing
 
 app:
-    production: false
+    production: true
 
